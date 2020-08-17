@@ -1,0 +1,14 @@
+--[[
+when a username that you enter in the table below joins the game,
+it will kick you automatically so they don't see you exploiting
+i use it with staff member's names so if they join i dont get banned
+]]
+
+usernames = {"username","other username","another username lol"}
+game:GetService("Players").PlayerAdded:Connect(function(plr)
+for i,v in pairs(usernames) do
+if plr.Name == v then
+game:GetService("Players").LocalPlayer:Kick(plr.Name.." has joined the game")
+end
+end
+end)
