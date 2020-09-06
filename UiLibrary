@@ -1,3 +1,4 @@
+--by sten btw
 local Lib = {}
    
     local ScreenGui = Instance.new("ScreenGui",game.CoreGui)
@@ -442,8 +443,8 @@ local Lib = {}
                 MouseDown = true 
                 local Check
                 spawn(function()
-                    repeat game.RunService.RenderStepped:wait()
-                        Fill.Size = UDim2.new(0,-(Fill.AbsolutePosition.X - game.Players.LocalPlayer:GetMouse().X - 3),0,6)
+                    repeat game:GetService("RunService").RenderStepped:wait()
+                        Fill.Size = UDim2.new(0,-(Fill.AbsolutePosition.X - game:GetService("Players").LocalPlayer:GetMouse().X - 3),0,6)
                     until MouseDown == false
                     Check:Disconnect()
                 end)
