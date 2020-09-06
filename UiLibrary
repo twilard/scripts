@@ -195,7 +195,7 @@ local Lib = {}
         	frame1.InputBegan:connect(function(inp)
         	    if inp.UserInputType == Enum.UserInputType.MouseButton1 then
         	        local inpPos = inp.Position
-        	        repeat game.RunService.RenderStepped:wait()
+        	        repeat game:GetService("RunService").RenderStepped:wait()
         	            frame2:TweenPosition(UDim2.new(0,Mouse.X - frame1.AbsoluteSize.X/2,0,Mouse.Y-frame1.AbsoluteSize.Y + 15),'Out','Linear',0.08,true)
         	        until inp.UserInputState == Enum.UserInputState.End
         	    end
