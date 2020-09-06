@@ -1,5 +1,5 @@
 local Lib = {}
-    
+   
     local ScreenGui = Instance.new("ScreenGui",game.CoreGui)
     ScreenGui.Name = "IcecreamHub"
     local roundDecimals = function(num, places)
@@ -35,7 +35,7 @@ local Lib = {}
     		visible = not visible
     	end
     end)
-    function Lib:addPage(Name)
+    function Lib:CreateWindow(Name)
         local Window = {}
         local flags = {}
         
@@ -202,7 +202,7 @@ local Lib = {}
         end
         AddDrag(Title_2,Main)
         
-        function Window:addButton(name, callback)
+        function Window:Button(name, callback)
             callback = callback or function() end
 
             local Button = Instance.new("Frame")
@@ -235,10 +235,10 @@ local Lib = {}
             Update(25)
         end
 
-        function Window:addToggle(name, default, callback)
-            
-            local location = self.flags
-            local flag = ""
+        function Window:Toggle(name, options, callback)
+            local default = options.default or false
+            local location = options.location or self.flags
+            local flag = options.flag or ""
             local callback = callback or function() end
             if default == false then
                 location[flag] = false
@@ -320,12 +320,13 @@ local Lib = {}
             Update(25)
         end
 
-        function Window:addSlider(name, min,def,max, callback)
+        function Window:Slider(name, options, callback)
             local default = options.default or options.min
-            
+            local min = options.min or 0
+            local max = options.max or 1
             local location = options.location or self.flags
-            local precise = false
-            local flag = ""
+            local precise = options.precise or false
+            local flag = options.flag or ""
             local callback = callback or function() end
 
             local Slider = Instance.new("Frame")
@@ -478,7 +479,7 @@ local Lib = {}
             Update(30)
         end
 
-        function Window:addDropdown(name, options, callback)
+        function Window:Dropdown(name, options, callback)
             local location   = options.location or self.flags
             local flag       = options.flag or ""
             local callback   = callback or function() end
@@ -803,12 +804,12 @@ local Lib = {}
             Update(25)
         end
 
-        function Window:addTextbox(name, default, callback)
-            local type = false
-  
-            local hold = false
-            local location = self.flags;
-            local flag =  "";
+        function Window:Box(name, options, callback)
+            local type = options.type or "" or false
+            local default = options.default or false
+            local hold = options.hold or false
+            local location = options.location or self.flags;
+            local flag = options.flag or "";
             local callback = callback or function() end;
 
             local TextBox = Instance.new("Frame")
