@@ -1,4 +1,4 @@
---by sten btw
+--by sten btw, modded by twilard uwu
 local Lib = {}
    
     local ScreenGui = Instance.new("ScreenGui",game.CoreGui)
