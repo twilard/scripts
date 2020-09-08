@@ -1,0 +1,502 @@
+local library, page, section = {}, {}, {}
+library.__index, page.__index, section.__index = library, page, section
+
+local CoreGui = game:GetService("CoreGui")
+local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
+local Heartbeat = game:GetService("RunService").Heartbeat
+
+function Create(class, props)
+	local Obj = Instance.new(class)
+	for i, v in pairs(props) do
+		if i ~= "Parent" then
+			if typeof(v) == "Instance" then
+				v.Parent = Obj
+			else
+				Obj[i] = v
+			end
+		end			
+	end
+	Obj.Parent = props.Parent
+	return Obj
+end
+
+function Dragger(obj, drag)
+	local Connection
+	drag.InputBegan:Connect(function(Input)
+		if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+			if Connection then
+				Connection:Disconnect()
+			end
+			local Start = Vector2.new(Mouse.X - obj.AbsolutePosition.X, Mouse.Y - obj.AbsolutePosition.Y)
+			Connection = Heartbeat:Connect(function()
+				obj:TweenPosition(UDim2.new(0, Mouse.X - Start.X, 0, Mouse.Y - Start.Y), "InOut", "Linear", 0.08, true)
+			end)
+		end
+	end)
+	drag.InputEnded:Connect(function(Input)
+		if Input.UserInputType == Enum.UserInputType.MouseButton1 and Connection then
+			Connection:Disconnect()
+		end
+	end)
+end
+
+function library:Notify(title, text, callback)
+	local Notif = Create("Frame", {
+		BackgroundColor3 = Color3.fromRGB(28, 28, 28),
+		Name = "Notification",
+		Parent = self.container,
+		Position = UDim2.new(0, -365, 1, -200),
+		Size = UDim2.new(0, 355, 0, 95),
+		Create("UICorner", {
+			CornerRadius = UDim.new(0, 6)
+		}),
+		Create("TextLabel", {
+			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+			Font = Enum.Font.SourceSansSemibold,
+			Name = "Title",
+			Size = UDim2.new(0, 355, 0, 30),
+			Text = title,
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18,
+			Create("UICorner", {
+				CornerRadius = UDim.new(0, 6)
+			})
+		}),
+		Create("TextLabel", {
+			BackgroundTransparency = 1,
+			Font = Enum.Font.SourceSansSemibold,
+			Name = "Secondary",
+			Position = UDim2.new(0, 0, 0, 30),
+			Size = UDim2.new(0, 355, 0, 30),
+			Text = text,
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18
+		}),
+		Create("TextButton", {
+			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+			Font = Enum.Font.SourceSansSemibold,
+			Name = "Accept",
+			Position = UDim2.new(0, 5, 0, 60),
+			Size = UDim2.new(0, 170, 0, 30),
+			Text = "Accept",
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18,
+			Create("UICorner", {
+				CornerRadius = UDim.new(0, 6)
+			})
+		}),
+		Create("TextButton", {
+			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+			Font = Enum.Font.SourceSansSemibold,
+			Name = "Decline",
+			Position = UDim2.new(0, 180, 0, 60),
+			Size = UDim2.new(0, 170, 0, 30),
+			Text = "Decline",
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18,
+			Create("UICorner", {
+				CornerRadius = UDim.new(0, 6)
+			})
+		})
+	})
+	Notif:TweenPosition(UDim2.new(0, 10, 1, -200), "InOut", "Sine", 0.5, true)
+	Notif.Accept.MouseButton1Click:Connect(function()
+		Notif:TweenPosition(UDim2.new(0, -365, 1, -200), "InOut", "Sine", 0.5, true)
+		callback(true)
+		wait(0.5)
+		Notif:Destroy()
+	end)
+	Notif.Decline.MouseButton1Click:Connect(function()
+		Notif:TweenPosition(UDim2.new(0, -365, 1, -200), "InOut", "Sine", 0.5, true)
+		callback(false)
+		wait(0.5)
+		Notif:Destroy()
+	end)
+end
+
+function library.new(title)
+	local Gui = Create("ScreenGui", {
+		Name = "Icecream Hub",
+		Parent = CoreGui,
+		Create("Frame", {
+			BackgroundColor3 = Color3.fromRGB(28, 28, 28),
+			BorderSizePixel = 0,
+			ClipsDescendants = true,
+			Name = "Main",
+			Position = UDim2.new(0.2, 0, 0.1, 0),
+			Size = UDim2.new(0, 525, 0, 410),
+			Create("UICorner", {
+				CornerRadius = UDim.new(0, 6)
+			}),
+			Create("Frame", {
+				BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+				BorderSizePixel = 0,
+				Name = "TitleBar",
+				Size = UDim2.new(0, 525, 0, 40),
+				Create("UICorner", {
+					CornerRadius = UDim.new(0, 6)
+				}),
+				Create("TextLabel", {
+					BackgroundTransparency = 1,
+					Font = Enum.Font.SourceSansSemibold,
+					Name = "Title",
+					Position = UDim2.new(0, 10, 0, 0),
+					Size = UDim2.new(0, 515, 0, 40),
+					Text = "Icecream Hub - " .. title,
+					TextColor3 = Color3.fromRGB(230, 230, 230),
+					TextSize = 24
+				})
+			}),
+			Create("Frame", {
+				BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+				Name = "Buttons",
+				Position = UDim2.new(0, 5, 0, 45),
+				Size = UDim2.new(0, 175, 0, 360),
+				Create("UICorner", {
+					CornerRadius = UDim.new(0, 6)
+				}),
+				Create("ScrollingFrame", {
+					BackgroundTransparency = 1,
+					ClipsDescendants = true,
+					Name = "Container",
+					ScrollBarThickness = 0,
+					Size = UDim2.new(0, 175, 0, 360),
+					Create("UIListLayout", {})
+				})
+			}),
+			Create("Frame", {
+				BackgroundTransparency = 1,
+				Name = "PageContainer",
+				Position = UDim2.new(0, 185, 0, 45),
+				Size = UDim2.new(0, 335, 0, 360)
+			})
+		})
+	})
+	Dragger(Gui.Main, Gui.Main.TitleBar)
+	return setmetatable({
+		container = Gui,
+		buttonsContainer = Gui.Main.Buttons.Container,
+		pagesContainer = Gui.Main.PageContainer,
+		pages = {}
+	}, library)
+end
+
+function page.new(library, title)
+	local Button = Create("Frame", {
+		BackgroundTransparency = 1,
+		Name = title,
+		Parent = library.buttonsContainer,
+		Size = UDim2.new(0, 195, 0, 35),
+		Create("TextLabel", {
+			BackgroundTransparency = 1,
+			Font = Enum.Font.SourceSans,
+			Name = "Title",
+			Position = UDim2.new(0, 45, 0, 10),
+			Size = UDim2.new(0, 150, 0, 25),
+			Text = title,
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 20,
+			TextXAlignment = Enum.TextXAlignment.Left
+		}),
+		Create("Frame", {
+			BackgroundColor3 = Color3.fromRGB(28, 28, 28),
+			Name = "Notifier",
+			Position = UDim2.new(0, 10, 0, 10),
+			Size = UDim2.new(0, 25, 0, 25),
+			Create("UICorner", {
+				CornerRadius = UDim.new(0, 6)
+			})
+		})
+	})
+	local Page = Create("ScrollingFrame", {
+		BackgroundTransparency = 1,
+		BorderSizePixel = 0,
+		ClipsDescendants = true,
+		Name = title,
+		Parent = library.pagesContainer,
+		ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0),
+		ScrollBarThickness = 5,
+		Size = UDim2.new(1, 0, 1, 0),
+		Visible = false,
+		Create("UIListLayout", {})
+	})
+	return setmetatable({
+		library = library,
+		container = Page,
+		button = Button,
+		sections = {}
+	}, page)
+end
+
+function section.new(page, title)
+	local Section = Create("Frame", {
+		BackgroundTransparency = 1,
+		Name = title,
+		Parent = page.container,
+		Size = UDim2.new(0, 325, 0, 25),
+		Create("TextLabel", {
+			BackgroundColor3 = Color3.fromRGB(120, 120, 120),
+			BorderSizePixel = 0,
+			Name = "LeftBar",
+			Position = UDim2.new(0, 5, 0, 12),
+			Size = UDim2.new(0, 90, 0, 1),
+			Text = ""
+		}),
+		Create("TextLabel", {
+			BackgroundColor3 = Color3.fromRGB(120, 120, 120),
+			BorderSizePixel = 0,
+			Name = "RightBar",
+			Position = UDim2.new(0, 230, 0, 12),
+			Size = UDim2.new(0, 90, 0, 1),
+			Text = ""
+		}),
+		Create("TextLabel", {
+			BackgroundTransparency = 1,
+			Font = Enum.Font.SourceSans,
+			Name = "Title",
+			Position = UDim2.new(0, 105, 0, 0),
+			Size = UDim2.new(0, 115, 0, 25),
+			Text = title,
+			TextColor3 = Color3.fromRGB(180, 180, 180),
+			TextSize = 16
+		}),
+		Create("Frame", {
+			BackgroundTransparency = 1,
+			Name = "Container",
+			Position = UDim2.new(0, 0, 0, 25),
+			Size = UDim2.new(1, 0, 1, -25),
+			Create("UIListLayout", {
+				Padding = UDim.new(0, 5)
+			})
+		})
+	})
+	return setmetatable({
+		page = page,
+		container = Section.Container,
+		lists = {}
+	}, section) 
+end
+
+function library:addPage(...)
+	local Page = page.new(self, ...)
+	local Button = Page.button
+	table.insert(self.pages, Page)
+	Button.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			for i, v in next, self.pages do
+				v.container.Visible = false
+				v.button.Notifier.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+			end
+			Page.container.Visible = true
+			Button.Notifier.BackgroundColor3 = Color3.fromRGB(0, 230, 0)
+		end
+	end)
+	return Page
+end
+
+function page:Resize()
+	local Size = 0
+	for i, v in next, self.container:GetChildren() do
+		if not v:IsA("UIListLayout") then
+			Size = Size + v.Size.Y.Offset
+		end
+	end
+	self.container.CanvasSize = UDim2.new(0, 0, 0, Size)
+end
+
+function page:addSection(...)
+	local Section = section.new(self, ...)
+	table.insert(self.sections, Section)
+	self:Resize()
+	return Section
+end
+
+function section:Resize()
+	local Size = 25
+	for i, v in next, self.container:GetChildren() do
+		if not v:IsA("UIListLayout") then
+			Size = Size + v.Size.Y.Offset + 5
+		end
+	end
+	self.container.Parent.Size = UDim2.new(0, 325, 0, Size - 5)
+	self.page:Resize()
+end
+
+function section:addButton(title, callback)
+	local Button = Create("Frame", {
+		BackgroundTransparency = 1,
+		Name = title,
+		Parent = self.container,
+		Size = UDim2.new(0, 325, 0, 30),
+		Create("TextButton", {
+			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+			Font = Enum.Font.SourceSans,
+			Name = "Click",
+			Size = UDim2.new(0, 325, 0, 30),
+			Text = title,
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18,
+			Create("UICorner", {
+				CornerRadius = UDim.new(0, 6)
+			})
+		})
+	})
+	self:Resize()
+	Button.Click.MouseButton1Click:Connect(callback)
+	return Button.Click
+end
+
+function section:addToggle(title, default, callback)
+	local Toggle = Create("Frame", {
+		BackgroundTransparency = 1,
+		Name = title,
+		Parent = self.container,
+		Size = UDim2.new(0, 325, 0, 30),
+		Create("TextLabel", {
+			BackgroundTransparency = 1,
+			Font = Enum.Font.SourceSans,
+			Name = "Title",
+			Position = UDim2.new(0, 5, 0, 0),
+			Size = UDim2.new(0, 285, 0, 30),
+			Text = title,
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18,
+			TextXAlignment = Enum.TextXAlignment.Left
+		}),
+		Create("TextButton", {
+			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+			Font = Enum.Font.SourceSans,
+			Name = "Click",
+			Position = UDim2.new(0, 295, 0, 0),
+			Size = UDim2.new(0, 30, 0, 30),
+			Text = "",
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18,
+			Create("UICorner", {
+				CornerRadius = UDim.new(0, 6)
+			})
+		})
+	})
+	self:Resize()
+	local Toggled = default
+	Toggle.Click.BackgroundColor3 = Toggled and Color3.fromRGB(0, 230, 0) or Color3.fromRGB(20, 20, 20)
+	Toggle.Click.MouseButton1Click:Connect(function()
+		Toggled = not Toggled
+		Toggle.Click.BackgroundColor3 = Toggled and Color3.fromRGB(0, 230, 0) or Color3.fromRGB(20, 20, 20)
+		callback(Toggled)
+	end)
+	return Toggle.Click
+end
+
+function section:addTextbox(title, default, callback)
+	local Textbox = Create("Frame", {
+		BackgroundTransparency = 1,
+		Name = title,
+		Parent = self.container,
+		Size = UDim2.new(0, 325, 0, 30),
+		Create("TextLabel", {
+			BackgroundTransparency = 1,
+			Font = Enum.Font.SourceSans,
+			Name = "Title",
+			Position = UDim2.new(0, 5, 0, 0),
+			Size = UDim2.new(0, 175, 0, 30),
+			Text = title,
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18,
+			TextXAlignment = Enum.TextXAlignment.Left
+		}),
+		Create("TextBox", {
+			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+			Font = Enum.Font.SourceSans,
+			Name = "Box",
+			Position = UDim2.new(0, 185, 0, 0),
+			Size = UDim2.new(0, 140, 0, 30),
+			Text = default,
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 16,
+			Create("UICorner", {
+				CornerRadius = UDim.new(0, 6)
+			})
+		})
+	})
+	self:Resize()
+	Textbox.Box:GetPropertyChangedSignal("Text"):Connect(function()
+		callback(Textbox.Box.Text)
+	end)
+	return Textbox.Box
+end
+
+function section:addSlider(title, default, min, max, callback)
+	local Slider = Create("Frame", {
+		BackgroundTransparency = 1,
+		Name = title,
+		Parent = self.container,
+		Size = UDim2.new(0, 325, 0, 45),
+		Create("TextLabel", {
+			BackgroundTransparency = 1,
+			Font = Enum.Font.SourceSans,
+			Name = "Title",
+			Position = UDim2.new(0, 5, 0, 0),
+			Size = UDim2.new(0, 160, 0, 30),
+			Text = title,
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18,
+			TextXAlignment = Enum.TextXAlignment.Left
+		}),
+		Create("TextLabel", {
+			BackgroundTransparency = 1,
+			Font = Enum.Font.SourceSans,
+			Name = "Value",
+			Position = UDim2.new(0, 160, 0, 0),
+			Size = UDim2.new(0, 160, 0, 30),
+			Text = default .. " / " .. max,
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18,
+			TextXAlignment = Enum.TextXAlignment.Right
+		}),
+		Create("Frame", {
+			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+			Name = "Container",
+			Position = UDim2.new(0, 0, 0, 30),
+			Size = UDim2.new(0, 325, 0, 15),
+			Create("UICorner", {
+				CornerRadius = UDim.new(0, 6)
+			}),
+			Create("Frame", {
+				BackgroundColor3 = Color3.fromRGB(0, 230, 0),
+				Name = "Fill",
+				Size = UDim2.new((default - min) / (max - min), 0, 1, 0),
+				Create("UICorner", {
+					CornerRadius = UDim.new(0, 6)
+				})
+			})
+		})
+	})
+	self:Resize()
+	local Conn = nil
+	local Set = function(val)
+		Slider.Value.Text = val .. " / " .. max
+		local Percent = (val - min) / (max - min)
+		Slider.Container.Fill:TweenSize(UDim2.new(Percent, 0, 1, 0), "InOut", "Sine", 0.08, true)
+		callback(val)
+	end
+	Slider.Container.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			if Conn then
+				Conn:Disconnect()
+			end
+			Conn = Heartbeat:Connect(function()
+				local Percent = math.clamp((Mouse.X - Slider.Container.AbsolutePosition.X) / Slider.Container.AbsoluteSize.X, 0, 1)
+				Set(math.floor((min + ((max - min) * Percent)) * 10) / 10)
+			end)
+		end
+	end)
+	Slider.Container.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 and Conn then
+			Conn:Disconnect()
+		end
+	end)
+	return Slider
+end
+
+return library
