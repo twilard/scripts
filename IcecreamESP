@@ -13,8 +13,9 @@ function lib:Boxes(v)
     Config.on = v or false
  end 
  -- called tracers and boxes cuz my old esp lib used tracers and boxes (Drawing.new)
+ game:GetService("RunService").Stepped:Connect(function()
  spawn(function()
- while wait() do
+
     for i,v in pairs(espFolder:GetChildren()) do v:Destroy() end
 if Config.on then
     if not Config.teamcheck then
@@ -59,6 +60,6 @@ end
         end
     end
 end
- end
+ end)
  end)
 return lib
