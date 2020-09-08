@@ -1,0 +1,64 @@
+--ik its trash but i suck at making esps
+local lib = {}
+local espFolder = Instance.new("Folder",workspace)
+local Config = {on = false, teamcheck = false}
+
+function lib:TeamCheck(v)
+Config.teamcheck = v or false
+end
+function lib:Tracers(v)
+Config.on = v or false
+end
+function lib:Boxes(v)
+    Config.on = v or false
+ end 
+ -- called tracers and boxes cuz my old esp lib used tracers and boxes (Drawing.new)
+ spawn(function()
+ while wait() do
+    for i,v in pairs(espFolder:GetChildren()) do v:Destroy() end
+if Config.on then
+    if not Config.teamcheck then
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do 
+    if v.Name ~= game:GetService("Players").LocalPlayer.Name then
+        local bill = Instance.new("BillboardGui", espFolder)
+        bill.Name = v.Name
+        bill.AlwaysOnTop = true
+        bill.Size = UDim2.new(1,0,1,0)
+        bill.Adornee = plr.Character.Head
+        local Frame = Instance.new('Frame',bill)
+        Frame.Active = true
+        Frame.BackgroundColor3 = Color3.fromRGB(0,0,0)
+        Frame.BackgroundTransparency = 0
+        Frame.BorderSizePixel = 5
+        Frame.AnchorPoint = Vector2.new(.5, .5)
+        Frame.Position = UDim2.new (0.5,0,0.5,0)
+        Frame.Size = UDim2.new (1,0,1,0)
+        Frame.Rotation = 0
+end
+end
+
+
+    else
+        for i,v in pairs(game:GetService("Players"):GetPlayers()) do 
+            if v.Name ~= game:GetService("Players").LocalPlayer.Name and v.Team ~= game:GetService("Players").LocalPlayer.Team then
+                local bill = Instance.new("BillboardGui", espFolder)
+                bill.Name = v.Name
+                bill.AlwaysOnTop = true
+                bill.Size = UDim2.new(1,0,1,0)
+                bill.Adornee = plr.Character.Head
+                local Frame = Instance.new('Frame',bill)
+                Frame.Active = true
+                Frame.BackgroundColor3 = Color3.fromRGB(0,0,0)
+                Frame.BackgroundTransparency = 0
+                Frame.BorderSizePixel = 5
+                Frame.AnchorPoint = Vector2.new(.5, .5)
+                Frame.Position = UDim2.new (0.5,0,0.5,0)
+                Frame.Size = UDim2.new (1,0,1,0)
+                Frame.Rotation = 0
+        end
+        end
+    end
+end
+ end
+ end)
+return lib
