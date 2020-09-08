@@ -1,3 +1,5 @@
+--By Syko#9709  Used in Icecream Hub, pls dont use this lib and call it your own
+
 local library, page, section = {}, {}, {}
 library.__index, page.__index, section.__index = library, page, section
 
