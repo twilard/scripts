@@ -341,7 +341,9 @@ function section:addButton(title, callback)
 			})
 		})
 	})
+	
 	self:Resize()
+	wait()
 	Button.Click.MouseButton1Click:Connect(callback)
 	return Button.Click
 end
@@ -378,6 +380,7 @@ function section:addToggle(title, default, callback)
 		})
 	})
 	self:Resize()
+	wait()
 	local Toggled = default
 	Toggle.Click.BackgroundColor3 = Toggled and Color3.fromRGB(0, 230, 0) or Color3.fromRGB(20, 20, 20)
 	Toggle.Click.MouseButton1Click:Connect(function()
@@ -420,6 +423,7 @@ function section:addTextbox(title, default, callback)
 		})
 	})
 	self:Resize()
+	wait()
 	Textbox.Box:GetPropertyChangedSignal("Text"):Connect(function()
 		callback(Textbox.Box.Text)
 	end)
@@ -472,6 +476,7 @@ function section:addSlider(title, default, min, max, callback)
 			})
 		})
 	})
+	wait()
 	self:Resize()
 	local Conn = nil
 	local Set = function(val)
@@ -496,6 +501,7 @@ function section:addSlider(title, default, min, max, callback)
 			Conn:Disconnect()
 		end
 	end)
+	
 	return Slider
 end
 
