@@ -35,7 +35,7 @@ local NotObstructing = function(destination, ignore) -- Rewrote by Stefanuk12
 end
 local ClosestPlayer = function() -- Most of this stuff was ripped right out of my upcoming hub
     local MousePos = MousePosition()
-    local Radius = FOV.Radius
+    local Radius = 350
     local Closest = math.huge
     local Target = nil
     local function HandleTeam(player)
