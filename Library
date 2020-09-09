@@ -386,6 +386,11 @@ function section:addToggle(title, default, callback)
 	})
 	self:Resize()
 	local Toggled = default
+	if Toggled then
+	Toggle.Click.BackgroundColor3 = Color3.fromRGB(0, 230, 0)
+	else
+	Toggle.Click.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+	end
 	Toggle.Click.BackgroundColor3 = Toggled and Color3.fromRGB(0, 230, 0) or Color3.fromRGB(20, 20, 20)
 	Toggle.Click.MouseButton1Click:Connect(function()
 		Toggled = not Toggled
