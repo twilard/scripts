@@ -47,7 +47,7 @@ function library:Notify(title, text, callback)
 		BackgroundColor3 = Color3.fromRGB(28, 28, 28),
 		Name = "Notification",
 		Parent = self.container,
-		Position = UDim2.new(0, -365, 1, -200),
+		Position = (UDim2.new(0, 10, 1, -200),
 		Size = UDim2.new(0, 355, 0, 95),
 		Create("UICorner", {
 			CornerRadius = UDim.new(0, 6)
@@ -101,17 +101,13 @@ function library:Notify(title, text, callback)
 			})
 		})
 	})
-	Notif:TweenPosition(UDim2.new(0, 10, 1, -200), "InOut", "Sine", 0.5, true)
+	
 	Notif.Accept.MouseButton1Click:Connect(function()
-		Notif:TweenPosition(UDim2.new(0, -365, 1, -200), "InOut", "Sine", 0.5, true)
 		callback(true)
-		wait(0.5)
 		Notif:Destroy()
 	end)
 	Notif.Decline.MouseButton1Click:Connect(function()
-		Notif:TweenPosition(UDim2.new(0, -365, 1, -200), "InOut", "Sine", 0.5, true)
 		callback(false)
-		wait(0.5)
 		Notif:Destroy()
 	end)
 end
