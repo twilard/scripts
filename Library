@@ -116,7 +116,7 @@ end
 
 function library.new(title)
 	local Gui = Create("ScreenGui", {
-		Name = "Icecream Hub",
+		Name = "IcecreamHub",
 		Parent = CoreGui,
 		Create("Frame", {
 			BackgroundColor3 = Color3.fromRGB(28, 28, 28),
