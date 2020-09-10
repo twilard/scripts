@@ -116,7 +116,7 @@ end
 
 function library.new(title)
 	local Gui = Create("ScreenGui", {
-		Name = "IcecreamHub",
+		Name = "Icecream Hub",
 		Parent = CoreGui,
 		Create("Frame", {
 			BackgroundColor3 = Color3.fromRGB(28, 28, 28),
@@ -161,7 +161,7 @@ function library.new(title)
 					Name = "Container",
 					ScrollBarThickness = 0,
 					Size = UDim2.new(0, 175, 0, 360),
-					Create("UIListLayout", {SortOrder = "LayoutOrder"})
+					Create("UIListLayout", {})
 				})
 			}),
 			Create("Frame", {
@@ -218,7 +218,7 @@ function page.new(library, title)
 		ScrollBarThickness = 5,
 		Size = UDim2.new(1, 0, 1, 0),
 		Visible = false,
-		Create("UIListLayout", {SortOrder = "LayoutOrder"})
+		Create("UIListLayout", {})
 	})
 	return setmetatable({
 		library = library,
@@ -266,8 +266,7 @@ function section.new(page, title)
 			Position = UDim2.new(0, 0, 0, 25),
 			Size = UDim2.new(1, 0, 1, -25),
 			Create("UIListLayout", {
-				Padding = UDim.new(0, 5),
-				SortOrder = "LayoutOrder"
+				Padding = UDim.new(0, 5)
 			})
 		})
 	})
