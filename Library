@@ -113,7 +113,45 @@ function library:Notify(title, text, callback)
 		Notif.Parent:Destroy()
 	end)
 end
-
+function library:TimeNotify(title, text, durat)
+	local Notif = Create("Frame", {
+		BackgroundColor3 = Color3.fromRGB(28, 28, 28),
+		Name = "Notification",
+		Parent = Instance.new("ScreenGui", CoreGui),
+		Position = UDim2.new(0, -365, 1, -200),
+		Size = UDim2.new(0, 355, 0, 95),
+		Create("UICorner", {
+			CornerRadius = UDim.new(0, 6)
+		}),
+		Create("TextLabel", {
+			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+			Font = Enum.Font.SourceSansSemibold,
+			Name = "Title",
+			Size = UDim2.new(0, 355, 0, 30),
+			Text = title,
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18,
+			Create("UICorner", {
+				CornerRadius = UDim.new(0, 6)
+			})
+		}),
+		Create("TextLabel", {
+			BackgroundTransparency = 1,
+			Font = Enum.Font.SourceSansSemibold,
+			Name = "Secondary",
+			Position = UDim2.new(0, 0, 0, 30),
+			Size = UDim2.new(0, 355, 0, 30),
+			Text = text,
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18
+		}),
+		
+	Notif:TweenPosition(UDim2.new(0, 10, 1, -200), "InOut", "Sine", 0.5, true)
+	wait(durat)
+	Notif:TweenPosition(UDim2.new(0, -365, 1, -200), "InOut", "Sine", 0.5, true)
+	wait(0.5)
+	Notif.Parent:Destroy()
+end
 function library.new(title)
 	local Gui = Create("ScreenGui", {
 		Name = "Icecream Hub",
