@@ -1,5 +1,3 @@
---By Syko#9709  Used in Icecream Hub, pls dont use this lib and call it your own
-
 local library, page, section = {}, {}, {}
 library.__index, page.__index, section.__index = library, page, section
 
@@ -42,12 +40,12 @@ function Dragger(obj, drag)
 	end)
 end
 
-function library:Notify(title, text, durat)
+function library:Notify(title, text, callback)
 	local Notif = Create("Frame", {
 		BackgroundColor3 = Color3.fromRGB(28, 28, 28),
 		Name = "Notification",
 		Parent = self.container,
-		Position = (UDim2.new(0, 10, 1, -200),
+		Position = UDim2.new(0, -365, 1, -200),
 		Size = UDim2.new(0, 355, 0, 95),
 		Create("UICorner", {
 			CornerRadius = UDim.new(0, 6)
@@ -74,15 +72,51 @@ function library:Notify(title, text, durat)
 			TextColor3 = Color3.fromRGB(230, 230, 230),
 			TextSize = 18
 		}),
-		wait(durat)
+		Create("TextButton", {
+			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+			Font = Enum.Font.SourceSansSemibold,
+			Name = "Accept",
+			Position = UDim2.new(0, 5, 0, 60),
+			Size = UDim2.new(0, 170, 0, 30),
+			Text = "Accept",
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18,
+			Create("UICorner", {
+				CornerRadius = UDim.new(0, 6)
+			})
+		}),
+		Create("TextButton", {
+			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
+			Font = Enum.Font.SourceSansSemibold,
+			Name = "Decline",
+			Position = UDim2.new(0, 180, 0, 60),
+			Size = UDim2.new(0, 170, 0, 30),
+			Text = "Decline",
+			TextColor3 = Color3.fromRGB(230, 230, 230),
+			TextSize = 18,
+			Create("UICorner", {
+				CornerRadius = UDim.new(0, 6)
+			})
+		})
+	})
+	Notif:TweenPosition(UDim2.new(0, 10, 1, -200), "InOut", "Sine", 0.5, true)
+	Notif.Accept.MouseButton1Click:Connect(function()
+		Notif:TweenPosition(UDim2.new(0, -365, 1, -200), "InOut", "Sine", 0.5, true)
+		callback(true)
+		wait(0.5)
 		Notif:Destroy()
-	
-	
+	end)
+	Notif.Decline.MouseButton1Click:Connect(function()
+		Notif:TweenPosition(UDim2.new(0, -365, 1, -200), "InOut", "Sine", 0.5, true)
+		callback(false)
+		wait(0.5)
+		Notif:Destroy()
+	end)
 end
 
 function library.new(title)
 	local Gui = Create("ScreenGui", {
-		Name = "IcecreamHub",
+		Name = "Icecream Hub",
 		Parent = CoreGui,
 		Create("Frame", {
 			BackgroundColor3 = Color3.fromRGB(28, 28, 28),
@@ -127,9 +161,7 @@ function library.new(title)
 					Name = "Container",
 					ScrollBarThickness = 0,
 					Size = UDim2.new(0, 175, 0, 360),
-					Create("UIListLayout", {
-						SortOrder = Enum.SortOrder.LayoutOrder
-					})
+					Create("UIListLayout", {})
 				})
 			}),
 			Create("Frame", {
@@ -186,9 +218,7 @@ function page.new(library, title)
 		ScrollBarThickness = 5,
 		Size = UDim2.new(1, 0, 1, 0),
 		Visible = false,
-		Create("UIListLayout", {
-			SortOrder = Enum.SortOrder.LayoutOrder
-		})
+		Create("UIListLayout", {})
 	})
 	return setmetatable({
 		library = library,
@@ -236,8 +266,7 @@ function section.new(page, title)
 			Position = UDim2.new(0, 0, 0, 25),
 			Size = UDim2.new(1, 0, 1, -25),
 			Create("UIListLayout", {
-				Padding = UDim.new(0, 5),
-				SortOrder = Enum.SortOrder.LayoutOrder
+				Padding = UDim.new(0, 5)
 			})
 		})
 	})
@@ -350,7 +379,7 @@ function section:addToggle(title, default, callback)
 	})
 	self:Resize()
 	local Toggled = default
-	if Toggled then
+                    if Toggled then
 	Toggle.Click.BackgroundColor3 = Color3.fromRGB(0, 230, 0)
 	else
 	Toggle.Click.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
