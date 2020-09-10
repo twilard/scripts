@@ -42,7 +42,7 @@ function Dragger(obj, drag)
 	end)
 end
 
-function library:Notify(title, text, callback)
+function library:Notify(title, text, durat)
 	local Notif = Create("Frame", {
 		BackgroundColor3 = Color3.fromRGB(28, 28, 28),
 		Name = "Notification",
@@ -74,42 +74,10 @@ function library:Notify(title, text, callback)
 			TextColor3 = Color3.fromRGB(230, 230, 230),
 			TextSize = 18
 		}),
-		Create("TextButton", {
-			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
-			Font = Enum.Font.SourceSansSemibold,
-			Name = "Accept",
-			Position = UDim2.new(0, 5, 0, 60),
-			Size = UDim2.new(0, 170, 0, 30),
-			Text = "Accept",
-			TextColor3 = Color3.fromRGB(230, 230, 230),
-			TextSize = 18,
-			Create("UICorner", {
-				CornerRadius = UDim.new(0, 6)
-			})
-		}),
-		Create("TextButton", {
-			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
-			Font = Enum.Font.SourceSansSemibold,
-			Name = "Decline",
-			Position = UDim2.new(0, 180, 0, 60),
-			Size = UDim2.new(0, 170, 0, 30),
-			Text = "Decline",
-			TextColor3 = Color3.fromRGB(230, 230, 230),
-			TextSize = 18,
-			Create("UICorner", {
-				CornerRadius = UDim.new(0, 6)
-			})
-		})
-	})
+		wait(durat)
+		Notif:Destroy()
 	
-	Notif.Accept.MouseButton1Click:Connect(function()
-		callback(true)
-		Notif:Destroy()
-	end)
-	Notif.Decline.MouseButton1Click:Connect(function()
-		callback(false)
-		Notif:Destroy()
-	end)
+	
 end
 
 function library.new(title)
