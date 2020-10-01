@@ -69,7 +69,7 @@ function library:Notify(title, text, callback)
 			Position = UDim2.new(0, 0, 0, 30),
 			Size = UDim2.new(0, 355, 0, 30),
 			Text = text,
-			TextColor3 = Color3.fromRGB(0, 0, 0),
+			TextColor3 = Color3.fromRGB(230, 230, 230),
 			TextSize = 18
 		}),
 		Create("TextButton", {
