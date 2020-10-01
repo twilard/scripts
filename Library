@@ -75,10 +75,10 @@ function library:Notify(title, text, callback)
 		Create("TextButton", {
 			BackgroundColor3 = Color3.fromRGB(20, 20, 20),
 			Font = Enum.Font.SourceSansSemibold,
-			Name = "✔️",
+			Name = "Accept",
 			Position = UDim2.new(0, 5, 0, 60),
 			Size = UDim2.new(0, 170, 0, 30),
-			Text = "Accept",
+			Text = "✔️",
 			TextColor3 = Color3.fromRGB(230, 230, 230),
 			TextSize = 18,
 			Create("UICorner", {
