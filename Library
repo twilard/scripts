@@ -142,7 +142,7 @@ function library.new(title)
 					Name = "Title",
 					Position = UDim2.new(0, 10, 0, 0),
 					Size = UDim2.new(0, 515, 0, 40),
-					Text = "Icecream Hub - " .. title,
+					Text = title,
 					TextColor3 = Color3.fromRGB(230, 230, 230),
 					TextSize = 24
 				})
