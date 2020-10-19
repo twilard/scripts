@@ -985,7 +985,7 @@ end
 mwr()
 
 local namecall_script = function(object, method, ...)
-	local script = "--icecream spy lmao"
+	local script = "--icecream spy lmao\n\32\n"
 	local args = {}
 	for i, v in pairs{...} do
 		script = script .. "local Argument_" .. i .. " = " .. (type(v) == "table" and Table_TS(v) or GetType(v)) .. "\n"
